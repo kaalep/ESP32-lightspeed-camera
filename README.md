@@ -1,5 +1,7 @@
 # ESP32 powered lightspeed camera
 
+***REPOSITORY WORK IN PROGRESS***
+
 This repository explains everything regarding my custom design ESP32 lightspeed camera and includes design files so you could try making or modifying this. Data from all of my tests will also be included.
 
 I started this project in 2025 June with minimal understanding of ultrafast data acquisition and optics in general. I was not even in high school at the time yet, so I guess you cannot blame me. The first ~9 months of the project was spent in circuit design. Most of my ideas were heavily flawed and looking back outright stupid, but as time went on things started making sense. Eventually I came up with this final design that also worked first try which was quite surprising.
