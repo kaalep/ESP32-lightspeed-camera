@@ -1,4 +1,3 @@
-# Avalanche Laser Diode Driver
 
 
 ***Avalanche Laser Diode Driver***
