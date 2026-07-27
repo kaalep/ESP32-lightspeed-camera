@@ -27,8 +27,11 @@ The output signal of the SiPM needed further amplification. For this, I decided 
 While soldering the final version of the sensor board my hot air station exploded, so I had to finish the BGA solder job using a metabo battery powered heat gun with no precise temperature control. It was tricky, but surprisingly easy.
 
 Sensor board specs:
+
 Slew rate: 2.75V/ns
+
 Output voltage swing range: 1.05V - 2.4V, 50 ohm termination to GND.
+
 Theoretical approximate output amplitude: ~25mV per photon with 1k Rfb. I have not measured this, because my oscilloscope is way too slow.
 
 # 2. The data acquisition
