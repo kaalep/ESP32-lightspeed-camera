@@ -55,5 +55,5 @@ Because the sensor output voltage is roughly linearly correlated to the amount o
 
 With the bare sample rate of 320 million bits per second, the maximum framerate is also 320 million frames per second. This is not enough timing detail for garage-scale light experiments. In order to increase the timing detail a variable delay ic functioning as a phase shifter is added right after the comparator. This phase shifter can change it's propagation delay withing a range of 0ns - 10.24ns with just 10ps steps. By changing the delay and re-doing the digital scans the resulting bitstreams can be merged to build detail beyond the bare sample period. Here is a more intuitive visual representation.
 
-<img width="1217" height="593" alt="image" src="https://github.com/user-attachments/assets/5ba3d673-7181-4228-8e52-f4813c8f6fca" />
+<img width="1370" height="684" alt="image" src="https://github.com/user-attachments/assets/90898e80-2397-468e-945f-ace65318a915" />
 ***This is an example image, timing and voltage data is not accurate to the actual device***
