@@ -40,12 +40,14 @@ Only problem is that the data sampled by the ESP32 SPI port is binary, and I am 
 <img width="1179" height="500" alt="image" src="https://github.com/user-attachments/assets/44b23b79-eda8-4dbe-8bd3-4e6adfd01ba4" />
 ***This is an example image, timing and voltage data is not accurate to the actual device***
 
+
 Above is an example output pulse from the SiPM datasheet. The red line is the dac voltage, comparator output will be 1 if the sensor voltage is higher than that line and 0 if lower. Of course in my sensor design the amplifier swings negative, so the comparator inputs are reversed to keep the same data polarity.
 
 In order to reconstruct the features of the analog waveform, the dac voltage is shifted and pulse repeated to build the analog depth. Here is a more intuitive visual representation of how the data produces an analog waveform.
 
 <img width="1417" height="601" alt="image" src="https://github.com/user-attachments/assets/8bacec9b-f271-48b4-bda5-40dec47c30bc" />
 ***This is an example image, timing and voltage data is not accurate to the actual device***
+
 
 In the image above, I have overlayed the comparator output over time as rows, where the row height is the reference voltage. Every row is a separate laser pulse, these rows are stitched together to draw the analog waveform out of digital samples. If you follow the edge between 1's and 0's you can see the waveform shape.
 
