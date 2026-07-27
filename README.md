@@ -31,7 +31,11 @@ Theoretical approximate output amplitude: ~25mV per photon with 1k Rfb. I have n
 
 # 2. The data acquisition
 
-Because the ESP32S3 internal ADC is nowhere near fast enough for this, I came up with a more clever solution. The SPI1 port on this chip can preform a half duplex quad-line read at a clock speed of 80MHz. This yields to a data acquisition rate of 320 million bits per second. Only problem is that all this data is digital, and I am trying to reconstruct an analog waveform. This means the analog signal from the sensor must first be digitized using a comparator that compares the sensor output voltage to a voltage set by a digital-analog converter.
+Because the ESP32S3 internal ADC is nowhere near fast enough for this, I came up with a more clever solution. The SPI1 port on this chip can preform a half duplex quad-line read at a clock speed of 80MHz. This yields to a data acquisition rate of 320 million bits per second.
+
+***Digitizing the sensor signal***
+
+Only problem is that the data sampled by the ESP32 SPI port is binary, and I am trying to reconstruct an analog waveform. This means the analog signal from the sensor must first be digitized using a comparator that compares the sensor output voltage to a voltage set by a digital-analog converter.
 
 <img width="1179" height="500" alt="image" src="https://github.com/user-attachments/assets/44b23b79-eda8-4dbe-8bd3-4e6adfd01ba4" />
 
@@ -41,5 +45,9 @@ In order to reconstruct the features of the analog waveform, the dac voltage is 
 
 <img width="1417" height="601" alt="image" src="https://github.com/user-attachments/assets/8bacec9b-f271-48b4-bda5-40dec47c30bc" />
 
-In the image above, I have overlayed the comparator output over time as rows, where the row height is the reference voltage. Every row is a separate laser pulse, these rows are stitched together to draw the analog waveform out of digital samples.
+In the image above, I have overlayed the comparator output over time as rows, where the row height is the reference voltage. Every row is a separate laser pulse, these rows are stitched together to draw the analog waveform out of digital samples. If you follow the edge between 1's and 0's you can see the waveform shape.
+
+Because the sensor output voltage is roughly linearly correlated to the amount of light hitting it, this analog waveform can be directly treated as pixel brightness over time. This is what you would expect to see on an oscilloscope screen.
+
+Now
 
