@@ -1,4 +1,4 @@
+Avalanche Laser Diode Driver
+Avalanche Laser Diode Driver
 
-
-https://github.com/user-attachments/assets/3604cc72-6b58-44e4-82ef-9328b5f8c98e
-
+This is a PCB for a home made Avalanche Laser diode driver. This is capable of driving Laser diodes with high peak power, and nanosecond pulse duration.
