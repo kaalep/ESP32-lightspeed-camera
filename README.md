@@ -33,7 +33,7 @@ Theoretical approximate output amplitude: ~25mV per photon with 1k Rfb. I have n
 
 Because the ESP32S3 internal ADC is nowhere near fast enough for this, I came up with a more clever solution. The SPI1 port on this chip can preform a half duplex quad-line read at a clock speed of 80MHz. This yields to a data acquisition rate of 320 million bits per second.
 
-**2.1. Digitizing the sensor signal**
+***2.1. Digitizing the sensor signal***
 
 Only problem is that the data sampled by the ESP32 SPI port is binary, and I am trying to reconstruct an analog waveform. This means the analog signal from the sensor must first be digitized using a comparator that compares the sensor output voltage to a voltage set by a digital-analog converter.
 
