@@ -62,3 +62,19 @@ With the bare sample rate of 320 million bits per second, the maximum framerate 
 <img width="1416" height="683" alt="image" src="https://github.com/user-attachments/assets/37264275-3e53-4e91-96a7-0f375f877428" />
 
 ***This is an example image, timing and voltage data is not accurate to the actual device***
+
+
+In the image above, I have overlayed two separate digital scans (laser pulses) color coded accordingly. The green line is the comparator reference voltage. In this case the base sample rate of 320 million bits per second will be doubled to 640 million, and so will the framerate. These divisions can be done as many times as the phase shifter allows for, in my own tests I have gone up to 64 divisions for a framerate of 20.48 billion frames per second and actually taken a video of light move across a 35cm wide scene. The theoretical limit for this phase shifter is 100 billion frames per second, however how visually appealing that is at short distance scales depends on system bandwidth.
+
+This acquisition board also allows the SPI clock to be injected back into the comparator for testing and calibrating. I was able to determine that under optimal conditions the ESP32S3 internal latches for the SPI1 port can transition from a 0 to a 1 over just a 10-20ps time shift when the input rising edge is very close to the clock phase. The ESP32 is impressing me every day. This allows for excellent maximum usable framerates.
+
+***2.3. Phase shifting SPI bits sequentially to saturate the SPI bus from a single digital line***
+
+One last problem remained. The ESP32 is not reading out of an SPI device as it would normally thru an SPI port. It is directly being driven by a dynamic comparator. The problem is that all 4 SPI bits are sampled at the exact same clock rising edge, so in order to turn this into a true 320 MSa/s sampler that reads a single digital line every SPI bit must be phase shifted (delayed) from the last one by 1/4 of the SPI clock period. This way on every rising edge every bit will be an "increasingly distant view into the past", this functions much like sample interlacing under the section 2.2, but without repeating the laser pulse and the interlacing is done physically rather than digitally. 
+
+In order to set these fixed delays for each bit I decided to use coaxial cables. Coaxial cables have a very stabile and characteristic propagation speed, for my specific cable (RG178) it is 69.5% the speed of light. From this I was able to calculate the cable length for each bit.
+
+<img width="520" height="933" alt="image" src="https://github.com/user-attachments/assets/6adab165-93a3-4099-ba14-298ab2883e83" />
+
+In the image above is the acquisition board with it's coaxial delay lines. It is even visually intuitive, as every next cable is 1/4 longer than the last. This is also drawn on the block diagram attached at the top of this document.
+
