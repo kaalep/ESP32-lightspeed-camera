@@ -33,21 +33,27 @@ Theoretical approximate output amplitude: ~25mV per photon with 1k Rfb. I have n
 
 Because the ESP32S3 internal ADC is nowhere near fast enough for this, I came up with a more clever solution. The SPI1 port on this chip can preform a half duplex quad-line read at a clock speed of 80MHz. This yields to a data acquisition rate of 320 million bits per second.
 
-***2.1. Digitizing the sensor signal***
+***2.1. Digitizing the sensor signal and reconstructing analog data***
 
 Only problem is that the data sampled by the ESP32 SPI port is binary, and I am trying to reconstruct an analog waveform. This means the analog signal from the sensor must first be digitized using a comparator that compares the sensor output voltage to a voltage set by a digital-analog converter.
 
 <img width="1179" height="500" alt="image" src="https://github.com/user-attachments/assets/44b23b79-eda8-4dbe-8bd3-4e6adfd01ba4" />
+***This is an example image, timing and voltage data is not accurate to the actual device***
 
 Above is an example output pulse from the SiPM datasheet. The red line is the dac voltage, comparator output will be 1 if the sensor voltage is higher than that line and 0 if lower. Of course in my sensor design the amplifier swings negative, so the comparator inputs are reversed to keep the same data polarity.
 
 In order to reconstruct the features of the analog waveform, the dac voltage is shifted and pulse repeated to build the analog depth. Here is a more intuitive visual representation of how the data produces an analog waveform.
 
 <img width="1417" height="601" alt="image" src="https://github.com/user-attachments/assets/8bacec9b-f271-48b4-bda5-40dec47c30bc" />
+***This is an example image, timing and voltage data is not accurate to the actual device***
 
 In the image above, I have overlayed the comparator output over time as rows, where the row height is the reference voltage. Every row is a separate laser pulse, these rows are stitched together to draw the analog waveform out of digital samples. If you follow the edge between 1's and 0's you can see the waveform shape.
 
 Because the sensor output voltage is roughly linearly correlated to the amount of light hitting it, this analog waveform can be directly treated as pixel brightness over time. This is what you would expect to see on an oscilloscope screen.
 
-Now
+***2.2. Interlacing phase shifted digital samples for more timing detail***
 
+With the bare sample rate of 320 million bits per second, the maximum framerate is also 320 million frames per second. This is not enough timing detail for garage-scale light experiments. In order to increase the timing detail a variable delay ic functioning as a phase shifter is added right after the comparator. This phase shifter can change it's propagation delay withing a range of 0ns - 10.24ns with just 10ps steps. By changing the delay and re-doing the digital scans the resulting bitstreams can be merged to build detail beyond the bare sample period. Here is a more intuitive visual representation.
+
+<img width="1217" height="593" alt="image" src="https://github.com/user-attachments/assets/5ba3d673-7181-4228-8e52-f4813c8f6fca" />
+***This is an example image, timing and voltage data is not accurate to the actual device***
