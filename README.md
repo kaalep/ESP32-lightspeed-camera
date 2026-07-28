@@ -99,7 +99,14 @@ The camera code has video parameters. timing_resolution is the amount of sub-sam
 
 Sample-length is basically the video lenth, it is the amount of bytes read in each SPI transaction. To calculate the video length in nanoseconds multiply this by 25 (sample_length x 25).
 
-***3.1. The raw format***
+***3.1. The processed format***
+
+The processed format is far simpler and faster to scan because it utilizes scan speed optimizations and does bitstream interlacing and brightness value searching locally. Every single pixel video is just saved as a sequence of bytes, where each byte represents the pixel's brightness (0-255) in a moment of time. Pixel data blocks are stacked according to the scan pattern above.
+
+In order to know the amount of bytes (frames) saved for each pixel you can use this formula: **sample_length x timing_resolution x 8**
+This is also the total frames in the whole video.
+
+***3.2. The raw format***
 
 The raw format brute-force scans everything with no scan speed optimization. This mode is intended for advanced de-noising algorithms as it saves all bare-bones data that the camera is able to record.
 
@@ -111,10 +118,3 @@ This is the data in a hex editor arranged in a logical sense with video paramete
 
 <img width="1514" height="797" alt="image" src="https://github.com/user-attachments/assets/f17ea48f-cee8-46aa-b3c2-35e3bce8ed4f" />
 
-
-***3.2. The processed format***
-
-The processed format is far simpler and faster to scan because it utilizes scan speed optimizations and does bitstream interlacing and brightness value searching locally. Every single pixel video is just saved as a sequence of bytes, where each byte represents the pixel's brightness (0-255) in a moment of time. Pixel data blocks are stacked according to the scan pattern above.
-
-In order to know the amount of bytes (frames) saved for each pixel you can use this formula: **sample_length x timing_resolution x 8**
-This is also the total frames in the whole video.
