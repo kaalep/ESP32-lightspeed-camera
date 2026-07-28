@@ -104,7 +104,8 @@ Sample-length is basically the video lenth, it is the amount of bytes read in ea
 The processed format is very simple and much faster to scan because it utilizes scan speed optimizations. This format also does bitstream interlacing and brightness value searching locally. Every single pixel video is just saved as a sequence of bytes, where each byte represents the pixel's brightness (0-255) in a moment of time. Pixel data blocks are stacked according to the scan pattern above.
 
 In order to know the amount of bytes (frames) saved for each pixel you can use this formula: **sample_length x timing_resolution x 8**
-This is also the total frames in the whole video.
+
+This is also equal the total frames in the whole video.
 
 ***3.2. The raw format***
 
