@@ -85,6 +85,36 @@ In order to set these fixed delays for each bit I decided to use coaxial cables.
 
 In the image above is the acquisition board with it's coaxial delay lines. It is even visually intuitive, as every next cable is 1/4 longer than the last. This is also drawn on the block diagram attached at the top of this document.
 
+# 3. Nanosecond laser and trigger signal
+
+The scene needs a very short, high bandwidth repeatable laser shot with insanely high peak powers for as much light as possible. I based my design of Les's Lab's avalanche nanosecond laser, with some upgrades.
+Go check out Les's Lab's nanosecond laser, he made this possible: https://www.youtube.com/watch?v=3-htF8Jrixo
+
+***3.1. The laser diode and driver***
+
+For the laser diode, I went with the Sharp GH04C07W9GH 435nm 7W blue multimode emitter rated at 3.7A of drive current. Because this laser diode will be overdriven to hell and beyond, I looked for the highest possible base power rating to minimize damage risk and maximize efficiency. 
+
+For the avalanche transistor I used the FMMT417TD due to its small footprint and high overvoltage rating.
+
+I also designed a local high voltage generator based on nixie transformers to reduce system complexity. It outputs 150V - 300V at a few watts. I settled on a HV bus voltage of 240V for the actual laser.
+
+It was extremely hard for me to characterize and measure the laser pulse due to my slow 40MHz oscilloscope with a rise time minimum of 8.75ns. 
+<img width="1772" height="1312" alt="image" src="https://github.com/user-attachments/assets/3c2b16e8-33d9-4fce-9c18-7f846d3cf1f9" />
+
+In the image above, I measured the pulse capacitor voltage. The scope reports a discharge time of just 7.88ns, but it is likely much faster than that, just my scope cannot measure that. I also ran a test with a 0.05Ω current shunt and measured a 50A current pulse across it.
+<img width="2048" height="1475" alt="image" src="https://github.com/user-attachments/assets/204b99eb-9f1f-4633-b617-aa99605926f9" />
+
+In the image above, I am probing the voltage drop of the shunt. The rise/fall times are much faster than my scope minimum, so the real current is definitely far higher. I would estimate close to what Les's Lab measured, close to 87A. I am running higher input voltages and a purpose-built transistor so it is possible for the current to be even higher.
+
+There were 2 versions of this laser diode driver. The first one worked but sucked, so I made a second improved version that worked very well.
+
+<img width="4000" height="2252" alt="image" src="https://github.com/user-attachments/assets/e4b98923-8d55-4d07-beb5-77e66dc9a93f" />
+***Nanosecond laser pcb***
+
+<img width="1502" height="1382" alt="SCH_Laser module_1-Sheet_1_2026-07-28" src="https://github.com/user-attachments/assets/b6c031b6-0324-4e2c-a141-92128b5aacd6" />
+***Nanosecond laser schematic***
+
+
 # 3. Data output and storage
 
 The output data is saved in a raw custom format onto the SD card in a file named "DATA.BIN". This file has 2 different modes, both need a program to turn it into a playable mp4 video.
