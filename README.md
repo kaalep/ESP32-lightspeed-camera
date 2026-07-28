@@ -182,6 +182,7 @@ I found some neon dyed nylon trimmer line that glowed bright green when hit by t
 ***Scene illuminated by the laser***
 
 https://github.com/user-attachments/assets/ffaa2be6-954d-4730-897c-33b5c9cae59a
+
 ***Output video***
 
 In the resulting video, the fluorescence lifetime is visible. All fluorescent dyes have this property and as far as I know this has never been constructed into a lightspeed video.
