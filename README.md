@@ -111,6 +111,7 @@ This is the data in a hex editor arranged in a logical sense with video paramete
 
 <img width="1514" height="797" alt="image" src="https://github.com/user-attachments/assets/f17ea48f-cee8-46aa-b3c2-35e3bce8ed4f" />
 
+
 ***3.2. The processed format***
 
 The processed format is far simpler and faster to scan because it utilizes scan speed optimizations and does bitstream interlacing and brightness value searching locally. Every single pixel video is just saved as a sequence of bytes, where each byte represents the pixel's brightness (0-255) in a moment of time. Pixel data blocks are stacked according to the scan pattern above.
