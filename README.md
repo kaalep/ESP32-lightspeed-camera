@@ -113,7 +113,7 @@ There were 2 versions of this laser diode driver. The first one worked but sucke
 ***Nanosecond laser pcb***
 
 
-<img width="1502" height="1382" alt="SCH_Laser module_1-Sheet_1_2026-07-28" src="https://github.com/user-attachments/assets/b6c031b6-0324-4e2c-a141-92128b5aacd6" />
+<img width="1502" height="1382" alt="SCH_Laser module_1-Sheet_1_2026-07-28 (1)" src="https://github.com/user-attachments/assets/b7291a6a-8a90-46e3-ac83-9182758ea96c" />
 
 ***Nanosecond laser schematic***
 
