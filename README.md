@@ -62,6 +62,8 @@ Because the sensor output voltage is roughly linearly correlated to the amount o
 
 ***2.2. Interlacing phase shifted digital samples for more timing detail***
 
+Halfway thru coming up with this solution I realized that is literally exactly how my sampling oscilloscope works, minus the digital base samples. I had re-invented equivalent-time sampling.
+
 With the bare sample rate of 320 million bits per second, the maximum framerate is also 320 million frames per second. This is not enough timing detail for garage-scale light experiments. In order to increase the timing detail a variable delay ic functioning as a phase shifter is added right after the comparator. This phase shifter can change it's propagation delay withing a range of 0ns - 10.24ns with just 10ps steps. By changing the delay and re-doing the digital scans the resulting bitstreams can be merged to build detail beyond the bare sample period. Here is a more intuitive visual representation.
 
 <img width="1416" height="683" alt="image" src="https://github.com/user-attachments/assets/37264275-3e53-4e91-96a7-0f375f877428" />
@@ -91,11 +93,11 @@ Pixels in each mode are stacked in the following zigzag pattern starting from th
 
 <img width="959" height="651" alt="image" src="https://github.com/user-attachments/assets/899d1163-4672-4d08-8759-e2f2e476c45b" />
 
-Every pixel contains all of the data necessary to turn it into a complete single-pixel video. It is not the frames that are stored sequentially, it is the single pixel videos.
+Every pixel in both modes contains all of the data necessary to turn it into a complete single-pixel video. It is not the frames that are stored sequentially, it is the single pixel videos.
 
-The camera code has video parameters. timing_resolution is the amount of sub-sample divisions (base sample rate multiplier), analog_depth is the amount of different reference voltage steps scanned and analog_step_mv is the amount the reference voltage is changed each step. Noisefloor_mv is the sensor voltage considered as total darkness.
+The camera code has video parameters. timing_resolution is the amount of sub-sample divisions (base sample rate multiplier, multiply 320 MSa/s with this number to get the framerate), analog_depth is the amount of different reference voltage steps scanned and analog_step_mv is the amount the reference voltage is changed each step. Noisefloor_mv is the sensor voltage considered as total darkness.
 
-Sample-length is basically the video lenth, it is the amount of bytes read in each SPI transaction. to calculate the video length in nanoseconds use this formula: sample_length x 8 x 3.125
+Sample-length is basically the video lenth, it is the amount of bytes read in each SPI transaction. To calculate the video length in nanoseconds multiply this by 25 (sample_length x 25).
 
 ***3.1. The raw format***
 
@@ -108,3 +110,10 @@ The image above is the data structure for this format. Each pixel contains block
 This is the data in a hex editor arranged in a logical sense with video parameters from the camera code to make it more intuitive:
 
 <img width="1514" height="797" alt="image" src="https://github.com/user-attachments/assets/f17ea48f-cee8-46aa-b3c2-35e3bce8ed4f" />
+
+***3.2. The processed format***
+
+The processed format is far simpler and faster to scan because it utilizes scan speed optimizations and does bitstream interlacing and brightness value searching locally. Every single pixel video is just saved as a sequence of bytes, where each byte represents the pixel's brightness (0-255) in a moment of time. Pixel data blocks are stacked according to the scan pattern above.
+
+In order to know the amount of bytes (frames) saved for each pixel you can use this formula: **sample_length x timing_resolution x 8**
+This is also the total frames in the whole video.
