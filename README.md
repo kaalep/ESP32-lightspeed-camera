@@ -109,9 +109,12 @@ In the image above, I am probing the voltage drop of the shunt. The rise/fall ti
 There were 2 versions of this laser diode driver. The first one worked but sucked, so I made a second improved version that worked very well.
 
 <img width="4000" height="2252" alt="image" src="https://github.com/user-attachments/assets/e4b98923-8d55-4d07-beb5-77e66dc9a93f" />
+
 ***Nanosecond laser pcb***
 
+
 <img width="1502" height="1382" alt="SCH_Laser module_1-Sheet_1_2026-07-28" src="https://github.com/user-attachments/assets/b6c031b6-0324-4e2c-a141-92128b5aacd6" />
+
 ***Nanosecond laser schematic***
 
 
