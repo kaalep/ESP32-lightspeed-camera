@@ -20,7 +20,7 @@ The image had to be scanned pixel-by-pixel, where the camera takes a series of s
 
 I went for a 90mm diameter Fresnel lens as the focusing lens with a 30mm focal length. An insanely fast optic with an f/0.3 aperture. The reason for this choice was to collect as much light as possible while keeping a large field of view of ~60 degrees. I fully expected the output image to be total trash due to the lens artifacts (I only cared to see anything at first), but to my surprise the lens artifacts were not noticeable at all. It seems that this lens follows an aspheric design as it was designed for DIY projectors. That is likely improving the image quality by a lot.
 
-The sensor has to have a very high gain in order to be able to detect the low amounts of light (tens of photons only). AlphaPhoenix used a photomultiplier tube, but that would be way too hard to fit on my stepper motor assembly. PMT's are also hard to get a hold of and they are quite slow relatively speaking. I decided to go for something more modern. A silicon photomultiplier (SiPM for short). The onsemi MICROFj series of SiPM sensors deliver excellent timing resolution, gain and photon detection efficiency. I added two footprints on my sensor board, one for the MICROFJ-30035 and one for the MICROFJ-60035. The main difference between these two sensors is the amount of area and microcells. This also directly correlates to output dark count noise, so I started with the smaller 30035.
+The sensor has to have a very high gain in order to be able to detect the low amounts of light (tens of photons only). AlphaPhoenix used a photomultiplier tube, but that would be way too hard to fit on my stepper motor assembly. PMT's are also hard to get a hold of and they are quite slow relatively speaking. I decided to go for something more modern. A silicon photomultiplier (SiPM for short). The onsemi MICROFJ series of SiPM sensors deliver excellent timing resolution, gain and photon detection efficiency. I added two footprints on my sensor board, one for the MICROFJ-30035 and one for the MICROFJ-60035. The main difference between these two sensors is the amount of area and microcells. This also directly correlates to output dark count noise, so I started with the smaller 30035.
 
 The output signal of the SiPM needed further amplification. For this, I decided to use a transimpedance amplifier based around the OPA855 opamp. The default feedback resistor is 1k, but can optionally be switched down to 100Ω using an onboard RF-relay. The first design for the acquisition board may have worked, but the sensor board initially had the fatal mistake of the SiPM footprint pins being reversed by me. It took me three tries to get this working properly. Luckily I made the sensor board separate from the acquisition board and was able to reorder it very cheaply.
 
@@ -28,7 +28,7 @@ While soldering the final version of the sensor board my hot air station explode
 
 Sensor board specs:
 
-Slew rate: 2.75V/ns
+Output slew rate: 2.75V/ns
 
 Output voltage swing range: 1.05V - 2.4V, 50 ohm termination to GND.
 
@@ -82,4 +82,16 @@ In order to set these fixed delays for each bit I decided to use coaxial cables.
 <img width="520" height="933" alt="image" src="https://github.com/user-attachments/assets/6adab165-93a3-4099-ba14-298ab2883e83" />
 
 In the image above is the acquisition board with it's coaxial delay lines. It is even visually intuitive, as every next cable is 1/4 longer than the last. This is also drawn on the block diagram attached at the top of this document.
+
+# 3. Data output and storage
+
+The output data is saved in a raw custom format onto the SD card in a file named "DATA.BIN". This file has 2 different modes, both need a program to turn it into a playable mp4 video.
+
+***3.1. The raw format***
+
+The raw format brute-force scans everything with no scan speed optimization. This mode is intended for advanced de-noising algorithms as it saves all bare-bones data that the camera is able to record.
+
+<img width="1545" height="752" alt="image" src="https://github.com/user-attachments/assets/06e9ea63-04f0-4f62-8431-ba3a7e484692" />
+
+The image above is the data structure for this format. 
 
