@@ -168,7 +168,9 @@ This is the data in a hex editor arranged in a logical sense with video paramete
 
 # 5. Recording multi-color
 
-In had the idea to record a video of the laser hitting a fluorescent dye in 2 colors. For that I ripped out two dichroic mirrors from a blue-ray disk drive and made swappable cards that could be inserted between the sensor and pinhole to only pass a specific wavelength of light. I found some neon dyed nylon trimmer line that glowed bright green when hit by the laser, and took a video of the laser hitting the trimmer line. I still do not have a smoke machine, so the laser is uncollimated and half of the output is hitting the wall to show the laser output.
+In had the idea to record a video of the laser hitting a fluorescent dye in 2 colors. For that I ripped out two dichroic mirrors from a blue-ray disk drive and made swappable cards that could be inserted between the sensor and pinhole to only pass a specific wavelength of light. I take 2 videos, one green and one blue and add them together for the color.
+
+I found some neon dyed nylon trimmer line that glowed bright green when hit by the laser, and took a video of the laser hitting the trimmer line. I still do not have a smoke machine, so the laser is uncollimated and half of the output is hitting the wall to show the laser output.
 
 <img width="1517" height="852" alt="image" src="https://github.com/user-attachments/assets/86169d96-c549-47f9-a2f4-24ac02d72085" />
 
@@ -179,10 +181,10 @@ In had the idea to record a video of the laser hitting a fluorescent dye in 2 co
 
 ***Scene illuminated by the laser***
 
-
 https://github.com/user-attachments/assets/ffaa2be6-954d-4730-897c-33b5c9cae59a
-
 ***Output video***
+
+In the resulting video, the fluorescence lifetime is visible. All fluorescent dyes have this property and as far as I know this has never been constructed into a lightspeed video.
 
 
 
