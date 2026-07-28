@@ -109,7 +109,7 @@ This is also equal the total frames in the whole video.
 
 ***3.2. The raw format***
 
-The raw format brute-force scans everything with no scan speed optimization. This mode is intended for advanced de-noising algorithms as it saves all bare-bones data that the camera is able to record.
+The raw format brute-force scans everything with no scan speed optimization. This mode is intended for advanced de-noising algorithms as it saves all bare-bones data that the camera is able to record. Data is saved as binary, not complete hex bytes, because it is made up of spi transfers (digital scans).
 
 <img width="1232" height="687" alt="image" src="https://github.com/user-attachments/assets/d4dbff43-3074-4a2d-82ce-e2a97b00150d" />
 
