@@ -10,6 +10,8 @@ I have to credit AlphaPhoenix for the idea and inspiration. He was the one to sh
 
 My goal was to not only replicate what AlphaPhoenix did but also improve the design and decrease the price. I have improved practically every aspect of his camera other than scan speed, image clarity and resolution.
 
+I completed this project (as in getting first videos) almost completely on my own. As much as I tried to find people to help me on this, nobody did. Most people didn't even think this was possible, so I had to finish it solo.
+
 # Block diagram of the entire system
 
 <img width="1296" height="534" alt="image" src="https://github.com/user-attachments/assets/4dc2b063-94bf-4dc1-af4c-7bb34a1d3c14" />
@@ -120,6 +122,7 @@ There were 2 versions of this laser diode driver. The first one worked but sucke
 
 ***Nanosecond laser schematic***
 
+
 ***3.2. The trigger signal***
 
 The laser needed a trigger signal that would fire it every time the ESP32 initiated an SPI read. The trigger needed to be high bandwidth and consistent for good repeatability. Luckily there is a pin on the ESP32 SPI port that does just that- the CS pin. It is usually used to indicate an ongoing transaction for the slave device, but in this case there is no slave device, instead I inverted the CS polarity and directly sent it over to the laser driver board as a trigger signal. I also needed a 50 ohm coax line driver, so I used the LMK1C1102PWR clock buffer as it is very fast and does not actually need a clock, it is just a fanout buffer internally and will work with pulses.
@@ -162,4 +165,25 @@ The image above is the data structure for this format. Each pixel contains block
 This is the data in a hex editor arranged in a logical sense with video parameters from the camera code to make it more intuitive:
 
 <img width="1514" height="797" alt="image" src="https://github.com/user-attachments/assets/f17ea48f-cee8-46aa-b3c2-35e3bce8ed4f" />
+
+# 5. Recording multi-color
+
+In had the idea to record a video of the laser hitting a fluorescent dye in 2 colors. For that I ripped out two dichroic mirrors from a blue-ray disk drive and made swappable cards that could be inserted between the sensor and pinhole to only pass a specific wavelength of light. I found some neon dyed nylon trimmer line that glowed bright green when hit by the laser, and took a video of the laser hitting the trimmer line. I still do not have a smoke machine, so the laser is uncollimated and half of the output is hitting the wall to show the laser output.
+
+<img width="1517" height="852" alt="image" src="https://github.com/user-attachments/assets/86169d96-c549-47f9-a2f4-24ac02d72085" />
+
+***Scene with lights on***
+
+
+<img width="4000" height="2252" alt="image" src="https://github.com/user-attachments/assets/eda67f29-eb06-4a53-abc0-ea5697699631" />
+
+***Scene illuminated by the laser***
+
+
+https://github.com/user-attachments/assets/ffaa2be6-954d-4730-897c-33b5c9cae59a
+
+***Output video***
+
+
+
 
