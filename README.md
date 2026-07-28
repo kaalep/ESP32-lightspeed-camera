@@ -14,6 +14,7 @@ My goal was to not only replicate what AlphaPhoenix did but also improve the des
 
 <img width="1296" height="534" alt="image" src="https://github.com/user-attachments/assets/4dc2b063-94bf-4dc1-af4c-7bb34a1d3c14" />
 
+
 # 1. The sensor assembly and optics
 
 The image had to be scanned pixel-by-pixel, where the camera takes a series of single pixel videos in different parts of the image and stitches them together. Instead of a big heavy mirror, I wanted something small to minimize the moving mass in the camera. I decided to go with the same kind of aperture as a normal camera to keep the mechanical part simple. I went for a dynamic sensor that is placed at the image plane and samples a single pixel thru a small pinhole. The sensor is on a XY linear stepper motor assembly that is used to select the pixel to be recorded.
@@ -33,6 +34,7 @@ Output slew rate: 2.75V/ns
 Output voltage swing range: 1.05V - 2.4V, 50 ohm termination to GND.
 
 Theoretical approximate output amplitude: ~25mV per photon with 1k Rfb. I have not measured this, because my oscilloscope is way too slow.
+
 
 # 2. The data acquisition
 
@@ -85,6 +87,7 @@ In order to set these fixed delays for each bit I decided to use coaxial cables.
 
 In the image above is the acquisition board with it's coaxial delay lines. It is even visually intuitive, as every next cable is 1/4 longer than the last. This is also drawn on the block diagram attached at the top of this document.
 
+
 # 3. Nanosecond laser and trigger signal
 
 The scene needs a very short, high bandwidth repeatable laser shot with insanely high peak powers for as much light as possible. I based my design of Les's Lab's avalanche nanosecond laser, with some upgrades.
@@ -113,12 +116,20 @@ There were 2 versions of this laser diode driver. The first one worked but sucke
 ***Nanosecond laser pcb***
 
 
-<img width="1502" height="1382" alt="SCH_Laser module_1-Sheet_1_2026-07-28 (1)" src="https://github.com/user-attachments/assets/b7291a6a-8a90-46e3-ac83-9182758ea96c" />
+<img width="1502" height="1382" alt="SCH_Laser module_1-Sheet_1_2026-07-28 (2)" src="https://github.com/user-attachments/assets/491db528-41e4-45c2-8309-ed373192182b" />
 
 ***Nanosecond laser schematic***
 
+***3.2. The trigger signal***
 
-# 3. Data output and storage
+The laser needed a trigger signal that would fire it every time the ESP32 initiated an SPI read. The trigger needed to be high bandwidth and consistent for good repeatability. Luckily there is a pin on the ESP32 SPI port that does just that- the CS pin. It is usually used to indicate an ongoing transaction for the slave device, but in this case there is no slave device, instead I inverted the CS polarity and directly sent it over to the laser driver board as a trigger signal. I also needed a 50 ohm coax line driver, so I used the LMK1C1102PWR clock buffer as it is very fast and does not actually need a clock, it is just a fanout buffer internally and will work with pulses.
+
+<img width="765" height="425" alt="image" src="https://github.com/user-attachments/assets/38bf013f-5cbd-4e39-b044-74bdb5d607cd" />
+
+The image above shows the laser trigger part of the acquisition board. The comparator is used to invert, sharpen and level shift the ESP32 GPIO. The ESP32 GPIO is impedance matched in a way where it can drive a 50 ohm open termination trace without exceeding the GPIO current limits, that is the reason for the low reference voltage on the comparator. Laser is triggered on the CS falling edge and seems to be very consistent.
+
+
+# 4. Data output and storage
 
 The output data is saved in a raw custom format onto the SD card in a file named "DATA.BIN". This file has 2 different modes, both need a program to turn it into a playable mp4 video.
 
@@ -132,7 +143,7 @@ The camera code has video parameters. timing_resolution is the amount of sub-sam
 
 Sample-length is basically the video lenth, it is the amount of bytes read in each SPI transaction. To calculate the video length in nanoseconds multiply this by 25 (sample_length x 25).
 
-***3.1. The processed format***
+***4.1. The processed format***
 
 The processed format is very simple and much faster to scan because it utilizes scan speed optimizations. This format also does bitstream interlacing and brightness value searching locally. Every single pixel video is just saved as a sequence of bytes, where each byte represents the pixel's brightness (0-255) in a moment of time. Pixel data blocks are stacked according to the scan pattern above.
 
@@ -140,7 +151,7 @@ In order to know the amount of bytes (frames) saved for each pixel you can use t
 
 This is also equal the total frames in the whole video.
 
-***3.2. The raw format***
+***4.2. The raw format***
 
 The raw format brute-force scans everything with no scan speed optimization. This mode is intended for advanced de-noising algorithms as it saves all bare-bones data that the camera is able to record. Data is saved as binary, not complete hex bytes, because it is made up of spi transfers (digital scans).
 
