@@ -87,11 +87,15 @@ In the image above is the acquisition board with it's coaxial delay lines. It is
 
 The output data is saved in a raw custom format onto the SD card in a file named "DATA.BIN". This file has 2 different modes, both need a program to turn it into a playable mp4 video.
 
-Pixels in each mode are stacked in the following zigzag pattern starting from the top-left:
+Pixels in each mode are stacked in the following zigzag pattern starting from the top-left (this is also the scan pattern, it minimizes stress on the sensor cables):
 
 <img width="959" height="651" alt="image" src="https://github.com/user-attachments/assets/899d1163-4672-4d08-8759-e2f2e476c45b" />
 
-Every pixel contains all of the data necessary to turn it into a complete single-pixel video. It is not the frames that are stored sequentially, it is the single pixel videos. 
+Every pixel contains all of the data necessary to turn it into a complete single-pixel video. It is not the frames that are stored sequentially, it is the single pixel videos.
+
+The camera code has video parameters. timing_resolution is the amount of sub-sample divisions (base sample rate multiplier), analog_depth is the amount of different reference voltage steps scanned and analog_step_mv is the amount the reference voltage is changed each step. Noisefloor_mv is the sensor voltage considered as total darkness.
+
+Sample-length is basically the video lenth, it is the amount of bytes read in each SPI transaction. to calculate the video length in nanoseconds use this formula: sample_length x 8 x 3.125
 
 ***3.1. The raw format***
 
@@ -104,6 +108,3 @@ The image above is the data structure for this format. Each pixel contains block
 This is the data in a hex editor arranged in a logical sense with video parameters from the camera code to make it more intuitive:
 
 <img width="1514" height="797" alt="image" src="https://github.com/user-attachments/assets/f17ea48f-cee8-46aa-b3c2-35e3bce8ed4f" />
-
-
-
