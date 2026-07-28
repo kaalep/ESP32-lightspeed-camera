@@ -91,7 +91,19 @@ The output data is saved in a raw custom format onto the SD card in a file named
 
 The raw format brute-force scans everything with no scan speed optimization. This mode is intended for advanced de-noising algorithms as it saves all bare-bones data that the camera is able to record.
 
-<img width="1545" height="752" alt="image" src="https://github.com/user-attachments/assets/06e9ea63-04f0-4f62-8431-ba3a7e484692" />
+<img width="1232" height="687" alt="image" src="https://github.com/user-attachments/assets/d4dbff43-3074-4a2d-82ce-e2a97b00150d" />
 
-The image above is the data structure for this format. 
+The image above is the data structure for this format. Each pixel contains blocks of digital interlacable scans each with different phase shifts (in chronological order) and each of those blocks (so called "DAC scans") follow the same structure but each with a different comparator reference voltage. 
+
+Pixels are stacked in the following zigzag pattern starting from the top-left:
+
+<img width="959" height="651" alt="image" src="https://github.com/user-attachments/assets/899d1163-4672-4d08-8759-e2f2e476c45b" />
+
+Every pixel contains all of the data necessary to turn it into a complete single-pixel video. It is not the frames that are stored sequentially, it is the single pixel videos. 
+
+This is the data in a hex editor arranged in a logical sense with video parameters from the camera code to make it more intuitive:
+
+<img width="1514" height="797" alt="image" src="https://github.com/user-attachments/assets/f17ea48f-cee8-46aa-b3c2-35e3bce8ed4f" />
+
+
 
